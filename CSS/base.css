@@ -1,0 +1,10 @@
+*{
+    box-sizing: border-box;
+}
+
+body {
+    background-color: rgb(245, 195, 129);
+    font-family: 'Syne Mono', monospace;
+    font-size: 20px;
+}
+
