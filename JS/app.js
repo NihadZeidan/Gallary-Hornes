@@ -31,7 +31,7 @@ $('document').ready(function() {
             data.forEach(function(horn) {
                 let templateOne = $('#photo-template').html();
 
-                new HornForPageOne(horn);
+                // new HornForPageOne(horn);
 
                 let html = Mustache.render(templateOne, horn);
                 $('main').append(html);
@@ -43,6 +43,7 @@ $('document').ready(function() {
 
 
             })
+
         })
     }
 
@@ -67,10 +68,10 @@ $('document').ready(function() {
 
             data.forEach(function(horn) {
 
-                new HornForPageOne(horn);
-                let templateTwo = $('#photo-template').html();
-                let html = Mustache.render(templateTwo, horn);
-                $('main').append(html);
+                // new HornForPageOne(horn);
+                let templateOne = $('#photo-template').html();
+                let html = Mustache.render(templateOne, horn);
+                $('main').append(html)
 
 
                 $('select').append(
@@ -82,40 +83,38 @@ $('document').ready(function() {
         })
     })
 
+})
 
 
+$('select').on("click", function(e) {
+    let selected = $(this).val();
+    console.log(selected);
 
-    $('select').on("click", function(e) {
-        let selected = $(this).val();
-        console.log(selected);
-
-        if (selected !== "default") {
+    if (selected !== "default") {
 
 
-            console.log(HornForPageOne.all);
+        console.log(HornForPageOne.all);
 
-            HornForPageOne.all.forEach(horn => {
+        HornForPageOne.all.forEach(horn => {
 
-                    if (horn.keyword === selected) {
+                if (horn.keyword === selected) {
 
-                        // this meanes if the keyword is the same to the selected will add filtered istead of the class keyword and it will result in class = filtered filtered  (we identified the defalute filtered class as (display block))
+                    // this meanes if the keyword is the same to the selected will add filtered istead of the class keyword and it will result in class = filtered filtered  (we identified the defalute filtered class as (display block))
 
-                        $(`.${selected}`).addClass('filtered');
+                    $(`.${selected}`).addClass('filtered');
 
-                    } else {
+                } else {
 
-                        // if not matching will remove the filtered from the class it self and will keep the keyword it self (we identified the defalute div as a (display none) in CSS)
+                    // if not matching will remove the filtered from the class it self and will keep the keyword it self (we identified the defalute div as a (display none) in CSS)
 
-                        $(`.${horn.keyword}`).removeClass('filtered');
-
-                    }
-
+                    $(`.${horn.keyword}`).removeClass('filtered');
 
                 }
 
 
-            )
-        }
-    })
+            }
 
+
+        )
+    }
 })
