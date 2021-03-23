@@ -8,10 +8,10 @@ body {
     font-size: 20px;
 }
 
-div {
-    display: none;
-}
-
 .filtered {
     display: block;
+}
+
+div {
+    display: none;
 }
