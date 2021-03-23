@@ -32,6 +32,7 @@ $('document').ready(function() {
 
     Horn.prototype.addToSelect = function() {
         $('select').append(
+
             `<option value = "${this.keyword}"> ${this.keyword} </option>`
         )
     }
