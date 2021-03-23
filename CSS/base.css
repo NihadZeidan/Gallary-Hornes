@@ -12,6 +12,6 @@ body {
     display: block;
 }
 
-div {
+#photo-template {
     display: none;
 }

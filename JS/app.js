@@ -31,17 +31,16 @@ $('document').ready(function() {
             data.forEach(function(horn) {
                 let templateOne = $('#photo-template').html();
 
-                let newHornForFirstPage = new HornForPageOne(horn);
+                new HornForPageOne(horn);
 
-                let html = Mustache.render(templateOne, newHornForFirstPage);
+                let html = Mustache.render(templateOne, horn);
                 $('main').append(html);
 
-                // newHorn.renderFromClone();
+
                 $('select').append(
                     `<option value = "${horn.keyword}"> ${horn.keyword} </option>`
                 )
 
-                // This to remove the defult template after render all the inctances:
 
             })
         })
@@ -52,7 +51,7 @@ $('document').ready(function() {
     //  To render the data from first JSON
     $("#first").on("click", function() {
         HornForPageOne.all = [];
-        console.log(HornForPageOne.all);
+        $('select').empty();
         toRenderTheFirstPage();
     })
 
@@ -61,30 +60,28 @@ $('document').ready(function() {
     //  To render the data from second JSON
     $("#second").on("click", function() {
         HornForPageOne.all = [];
+        $('select').empty();
+        console.log(HornForPageOne.all);
 
         $.ajax('data/page-2.json', ajaxSettings).then((data) => {
-            console.log(HornForPageOne.all);
 
             data.forEach(function(horn) {
 
-                let newHornForSecondPage = new HornForPageOne(horn);
+                new HornForPageOne(horn);
                 let templateTwo = $('#photo-template').html();
-                let html = Mustache.render(templateTwo, newHornForSecondPage);
+                let html = Mustache.render(templateTwo, horn);
                 $('main').append(html);
+
 
                 $('select').append(
                     `<option value = "${horn.keyword}"> ${horn.keyword} </option>`
                 )
 
-                // newHorn.renderFromClone();
-
             })
-
-            // This to remove the defult template after render all the inctances:
-
 
         })
     })
+
 
 
 
@@ -93,6 +90,9 @@ $('document').ready(function() {
         console.log(selected);
 
         if (selected !== "default") {
+
+
+            console.log(HornForPageOne.all);
 
             HornForPageOne.all.forEach(horn => {
 
@@ -117,6 +117,5 @@ $('document').ready(function() {
             )
         }
     })
-
 
 })
