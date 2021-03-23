@@ -8,49 +8,82 @@ $('document').ready(function() {
     }
 
 
-    function Horn(horn) {
+    function HornForPageOne(horn) {
         this.title = horn.title;
         this.description = horn.description;
-        this.image = horn.image_url;
+        this.image_url = horn.image_url;
         this.keyword = horn.keyword;
         this.horns = horn.horns;
-        Horn.all.push(this);
+        HornForPageOne.all.push(this);
     }
 
-    Horn.all = [];
-
-    Horn.prototype.renderFromClone = function() {
-        let template = $('#photo-template').clone();
-        template.find("h2").text(`${this.title}   #${this.horns}`);
-        template.find('p').text(this.description);
-        template.find('img').attr("src", this.image);
-        template.attr('class', `${this.keyword}  filtered`);
-        $('main').append(template);
-
-    }
-
-
-    Horn.prototype.addToSelect = function() {
-        $('select').append(
-            `<option value = "${this.keyword}"> ${this.keyword} </option>`
-        )
-    }
+    HornForPageOne.all = [];
 
 
 
-    $.ajax('data/page-1.json', ajaxSettings).then((data) => {
-        data.forEach(function(horn) {
-            let newHorn = new Horn(horn);
-            newHorn.renderFromClone();
-            newHorn.addToSelect();
+
+
+
+
+    function toRenderTheFirstPage() {
+        $.ajax('data/page-1.json', ajaxSettings).then((data) => {
+
+            data.forEach(function(horn) {
+                let templateOne = $('#photo-template').html();
+
+                let newHornForFirstPage = new HornForPageOne(horn);
+
+                let html = Mustache.render(templateOne, newHornForFirstPage);
+                $('main').append(html);
+
+                // newHorn.renderFromClone();
+                $('select').append(
+                    `<option value = "${horn.keyword}"> ${horn.keyword} </option>`
+                )
+
+                // This to remove the defult template after render all the inctances:
+
+            })
         })
+    }
+
+    toRenderTheFirstPage();
+
+    //  To render the data from first JSON
+    $("#first").on("click", function() {
+        HornForPageOne.all = [];
+        console.log(HornForPageOne.all);
+        toRenderTheFirstPage();
+    })
 
 
 
-        // This to remove the defult template after render all the inctances:
-        $('#photo-template').remove()
+    //  To render the data from second JSON
+    $("#second").on("click", function() {
+        HornForPageOne.all = [];
+
+        $.ajax('data/page-2.json', ajaxSettings).then((data) => {
+            console.log(HornForPageOne.all);
+
+            data.forEach(function(horn) {
+
+                let newHornForSecondPage = new HornForPageOne(horn);
+                let templateTwo = $('#photo-template').html();
+                let html = Mustache.render(templateTwo, newHornForSecondPage);
+                $('main').append(html);
+
+                $('select').append(
+                    `<option value = "${horn.keyword}"> ${horn.keyword} </option>`
+                )
+
+                // newHorn.renderFromClone();
+
+            })
+
+            // This to remove the defult template after render all the inctances:
 
 
+        })
     })
 
 
@@ -61,7 +94,7 @@ $('document').ready(function() {
 
         if (selected !== "default") {
 
-            Horn.all.forEach(horn => {
+            HornForPageOne.all.forEach(horn => {
 
                     if (horn.keyword === selected) {
 
