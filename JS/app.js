@@ -38,7 +38,7 @@ $('document').ready(function() {
 
 
 
-    $.ajax('data/page-1.json', ajaxSettings).then((data) => {
+    $.ajax('./data/page-1.json', ajaxSettings).then((data) => {
         data.forEach(function(horn) {
             let newHorn = new Horn(horn);
             newHorn.renderFromClone();
