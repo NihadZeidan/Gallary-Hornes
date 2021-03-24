@@ -20,9 +20,13 @@ $('document').ready(function() {
 
 
 
-    // Horns.prototype.toRender = function() {
+    Horns.prototype.toRender = function() {
 
-    // }
+        let templateOne = $('#photo-template').html();
+        let html = Mustache.render(templateOne, this);
+        $('main').append(html);
+
+    }
 
 
 
@@ -38,10 +42,7 @@ $('document').ready(function() {
         $.ajax(`data/page-${num}.json`, ajaxSettings).then((data) => {
             data.forEach((horn, i) => {
                 let newHorn = new Horns(horn);
-
-                let templateOne = $('#photo-template').html();
-                let html = Mustache.render(templateOne, newHorn);
-                $('main').append(html);
+                newHorn.toRender();
 
                 if (!arrayForKey.includes(Horns.all[i].keyword)) {
                     arrayForKey.push(Horns.all[i].keyword)
@@ -66,7 +67,7 @@ $('document').ready(function() {
 
     clickOnPage();
 
-    // renderAjax(1);
+    renderAjax(1);
 
 
 
