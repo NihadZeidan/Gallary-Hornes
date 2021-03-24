@@ -18,7 +18,6 @@
           HornForPageOne.all.push(this);
       }
 
-      HornForPageOne.all = [];
 
 
       HornForPageOne.prototype.toRender = function() {
@@ -50,7 +49,6 @@
                   `<option value = "${arrayForKey[i]}"> ${arrayForKey[i]} </option>`
               )
           }
-          HornForPageOne.all = [];
       })
 
 
@@ -62,7 +60,7 @@
 
 
               $.ajax('data/page-1.json', ajaxSettings).then((data) => {
-                  data.forEach((horn, i) => {
+                  data.forEach((horn) => {
                       if (horn.keyword === selected) {
 
                           // this meanes if the keyword is the same to the selected will add filtered istead of the class keyword and it will result in class = filtered filtered  (we identified the defalute filtered class as (display block))
