@@ -17,15 +17,13 @@ select {
     margin-top: 50px;
     margin-bottom: 50px;
     background-color: cadetblue;
-    font-size: 20px ;
+    font-size: 20px;
     font-family: 'Syne Mono', monospace;
 }
 
-p{
+p {
     text-align: center;
 }
-
-
 
 footer {
     clear: both;
@@ -33,9 +31,8 @@ footer {
     font-size: 20px;
 }
 
-
-div {
-    overflow:hidden;
+#photo-template {
+    overflow: hidden;
     float: right;
     padding: 15px;
     border: solid 1px black;
