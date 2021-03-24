@@ -1,13 +1,13 @@
 'use strict';
 $('document').ready(function() {
 
-
     let ajaxSettings = {
         method: 'get',
         dataType: 'json'
     }
 
     let arrayForKey = [];
+    HornForPageOne.all = [];
 
     function HornForPageOne(horn) {
         this.title = horn.title;
@@ -16,55 +16,41 @@ $('document').ready(function() {
         this.keyword = horn.keyword;
         this.horns = horn.horns;
         HornForPageOne.all.push(this);
-        arrayForKey.push(horn.keyword);
     }
 
-    HornForPageOne.all = [];
 
 
     HornForPageOne.prototype.toRender = function() {
         let templateOne = $('#photo-template').html();
         let html = Mustache.render(templateOne, this);
         $('main').append(html);
-
-        let createOption = $('<option value="default"> </option>').attr('value', this.keyword).text(this.keyword)
-        $('select').append(createOption)
-
     }
+
+
 
 
 
     function renderFirst() {
-
         $.ajax('data/page-1.json', ajaxSettings).then((data) => {
-
-
-            data.forEach(function(horn, i) {
-
+            data.forEach((horn, i) => {
 
                 let newHorn = new HornForPageOne(horn);
-
                 newHorn.toRender();
 
-
-
-                // if (arrayForKey[i] !== $('option').val()) {
-                //     $('select').append(
-                //         `<option value = "${arrayForKey[i]}"> ${arrayForKey[i]} </option>`
-                //     )
-
-                // }
-
-
+                if (!arrayForKey.includes(HornForPageOne.all[i].keyword)) {
+                    arrayForKey.push(HornForPageOne.all[i].keyword)
+                }
             })
 
-
-
-
-
+            for (let i = 0; i < arrayForKey.length; i++) {
+                $('select').append(
+                    `<option value = "${arrayForKey[i]}"> ${arrayForKey[i]} </option>`
+                )
+            }
         })
-
+        HornForPageOne.all = [];
     }
+
 
     renderFirst();
 
@@ -80,27 +66,32 @@ $('document').ready(function() {
 
 
     //  To render the data from second JSON
-    $("#second").on("click", function() {
+    $("#second").on("click", function(e) {
         HornForPageOne.all = [];
-        $('select').empty();
         console.log(HornForPageOne.all);
+        $('select').empty();
+        arrayForKey = [];
 
         $.ajax('data/page-2.json', ajaxSettings).then((data) => {
-
-            data.forEach(function(horn) {
+            data.forEach(function(horn, i) {
 
                 let newHorn = new HornForPageOne(horn);
                 newHorn.toRender();
 
-
-                $('select').append(
-                    `<option value = "${horn.keyword}"> ${horn.keyword} </option>`
-                )
-
-
+                if (!arrayForKey.includes(HornForPageOne.all[i].keyword)) {
+                    arrayForKey.push(HornForPageOne.all[i].keyword)
+                }
             })
 
+
+            for (let i = 0; i < arrayForKey.length; i++) {
+                $('select').append(
+                    `<option value = "${arrayForKey[i]}"> ${arrayForKey[i]} </option>`
+                )
+            }
+
         })
+
     })
 
 })
