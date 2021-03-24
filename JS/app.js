@@ -7,9 +7,7 @@
       }
 
       let arrayForKey = [];
-
       HornForPageOne.all = [];
-
 
       function HornForPageOne(horn) {
           this.title = horn.title;
