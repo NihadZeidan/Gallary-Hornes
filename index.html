@@ -5,13 +5,13 @@
     <title>The Gallery of Horns</title>
     <link href="CSS/reset.css" rel="stylesheet">
     <link href="CSS/base.css" rel="stylesheet">
+    <link href="CSS/module.css" rel="stylesheet">
     <link href="CSS/layout.css" rel="stylesheet">
     <link rel="stylesheet" href="CSS/state.css">
-
-    <link href="CSS/module.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Syne+Mono&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 </head>
 
 <body>
@@ -22,6 +22,11 @@
             
     </select>
 
+        <fieldset>
+            <input type="radio" value="title" id="title" checked="checked"> Sort By Title </input>
+            <input type="radio" value="horns" id="horns"> Sort By Horns </input>
+        </fieldset>
+
         <nav>
             <button id="1"> Page 1</button>
             <button id="2"> Page 2</button>
@@ -30,13 +35,14 @@
 
 
     <main>
-        <section>
-            <template id="photo-template" type="text/x-tmpl-mustache">
-            <h2> {{title}} #{{horns}}</h2>
-            <img src="{{image_url}}" alt="" />
-            <p> {{description}} </p>
-        </template>
+        <template id="template" type="text/x-tmpl-mustache">
+            <section class="{{keyword}}">
+            <h2> {{title}} #{{horns}} </h2>
+            <img src="{{image_url}}" alt=""> </img>
+            <p> {{description}} </p> 
         </section>
+        </template>
+
 
     </main>
 

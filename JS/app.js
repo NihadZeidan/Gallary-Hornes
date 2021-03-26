@@ -19,24 +19,33 @@ $('document').ready(function() {
     }
 
 
-
     Horns.prototype.toRender = function() {
 
-        let templateOne = $('#photo-template').html();
+        let templateOne = $('#template').html();
         let html = Mustache.render(templateOne, this);
         $('main').append(html);
 
     }
 
+    function refreshTheSection() {
+        $('section').empty();
+        $("section").append(
+            `
+            <template id="template" type="text/x-tmpl-mustache" class="">
+            <h2> {{title}} #{{horns}}</h2>
+            <img src="{{image_url}}" alt="" />
+            <p> {{description}} </p>
+        </template>`
+        )
 
-
-
+    }
 
     function renderAjax(num) {
         arrayForKey = [];
         Horns.all = [];
         $('option').remove();
-        $('section').remove();
+        refreshTheSection();
+
 
 
         $.ajax(`data/page-${num}.json`, ajaxSettings).then((data) => {
@@ -52,11 +61,42 @@ $('document').ready(function() {
                 }
             })
 
+
         })
     }
 
+    function handleSort() {
+        $('input').on('change', function() {
+            let value = $(this).val();
 
+            if (value === "title") {
+                sortByName()
+            }
+        })
+        render()
+    }
 
+    handleSort();
+
+    function sortByName() {
+
+        Horns.all.sort((a, b) => {
+            if (a.value < b.value) {
+                return -1;
+
+            } else if (b.value < a.value) {
+                return 1;
+            }
+
+        })
+        render(Horns.all)
+    }
+
+    function render() {
+        Horns.all.forEach(obj => {
+            obj.toRender();
+        })
+    }
 
     function clickOnPage() {
         $('button').on("click", function() {
@@ -64,85 +104,34 @@ $('document').ready(function() {
             renderAjax(id);
         })
     }
-
     clickOnPage();
-
     renderAjax(1);
+    // filteration(Horns.all);
+
+
+
+
+
+
+    // function filteration(arr) {
+
+    //     $('select').on("click", function() {
+    //         let selectedKeyword = $(this).val();
+
+    //         arr.forEach(obj => {
+
+    //             if (obj.keyword === selectedKeyword) {
+
+    //                 $(`.${selectedKeyword}`).attr("class", 'show');
+    //             } else {
+    //                 $(`.${selectedKeyword}`).attr('class', " ")
+    //             }
+    //         })
+    //     })
+    // }
+
 
 
 
 
 })
-
-
-//  To render the data from first JSON
-// $("#first").on("click", function() {
-//     HornForPageOne.all = [];
-//     $('select').empty();
-//     renderFirst();
-
-// })
-
-
-
-//  To render the data from second JSON
-//     $("#second").on("click", function(e) {
-//         HornForPageOne.all = [];
-//         console.log(HornForPageOne.all);
-//         $('select').empty();
-//         arrayForKey = [];
-
-//         $.ajax('data/page-2.json', ajaxSettings).then((data) => {
-//             data.forEach(function(horn, i) {
-
-//                 let newHorn = new HornForPageOne(horn);
-//                 newHorn.toRender();
-
-//                 if (!arrayForKey.includes(HornForPageOne.all[i].keyword)) {
-//                     arrayForKey.push(HornForPageOne.all[i].keyword)
-//                 }
-//             })
-
-
-//             for (let i = 0; i < arrayForKey.length; i++) {
-//                 $('select').append(
-//                     `<option value = "${arrayForKey[i]}"> ${arrayForKey[i]} </option>`
-//                 )
-//             }
-
-//         })
-
-//     })
-
-// })
-
-
-
-// $('select').on("click", function(e) {
-//     let selected = $(this).val();
-//     console.log(selected);
-
-//     if (selected !== "default") {
-
-
-//         if (horn.keyword === selected) {
-
-//             // this meanes if the keyword is the same to the selected will add filtered istead of the class keyword and it will result in class = filtered filtered  (we identified the defalute filtered class as (display block))
-
-//             $(`.${selected}`).addClass('filtered');
-
-//         } else {
-
-//             // if not matching will remove the filtered from the class it self and will keep the keyword it self (we identified the defalute div as a (display none) in CSS)
-
-//             $(`.${horn.keyword}`).removeClass('filtered');
-
-//         }
-
-
-
-
-
-
-//     }
-// })

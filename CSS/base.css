@@ -8,11 +8,10 @@ body {
     font-size: 20px;
 }
 
-
-/* .filtered {
-    display: block;
+.remove {
+    display: none;
 }
 
-#photo-template {
-    display: none;
-} */
+.show {
+    display: block;
+}
