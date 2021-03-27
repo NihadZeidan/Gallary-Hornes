@@ -1,10 +1,11 @@
-'use strict';
-$('document').ready(function() {
+  'use strict';
+  $('document').ready(function() {
 
-    let ajaxSettings = {
-        method: 'get',
-        dataType: 'json'
-    }
+      let ajaxSettings = {
+          method: 'get',
+          dataType: 'json'
+      }
+
 
     let arrayForKey = [];
     Horns.all = [];
@@ -32,6 +33,12 @@ $('document').ready(function() {
         })
     }
 
+
+
+
+
+
+
     function refreshTheSection() {
         $('section').remove();
         $("section").append(
@@ -45,6 +52,7 @@ $('document').ready(function() {
         )
     }
 
+
     function removeTheSelections() {
 
         $('select').empty();
@@ -54,6 +62,9 @@ $('document').ready(function() {
 
     }
 
+  
+
+                        
 
     function renderAjax(num) {
         refreshTheSection();
@@ -73,6 +84,9 @@ $('document').ready(function() {
                     )
                 }
             })
+
+
+                  })
 
 
         })
