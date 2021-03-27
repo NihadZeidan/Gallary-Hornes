@@ -72,7 +72,7 @@
           Horns.all = [];
           removeTheSelections();
 
-          $.ajax(`data/page-${num}.json`, ajaxSettings).then((data) => {
+          $.ajax(`../data/page-${num}.json`, ajaxSettings).then((data) => {
               data.forEach((horn, i) => {
                   let newHorn = new Horns(horn);
                   newHorn.toRender();
@@ -89,8 +89,8 @@
           })
 
 
-
       }
+
 
 
 
