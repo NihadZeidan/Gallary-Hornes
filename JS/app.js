@@ -20,33 +20,46 @@ $('document').ready(function() {
 
 
     Horns.prototype.toRender = function() {
-
         let templateOne = $('#template').html();
         let html = Mustache.render(templateOne, this);
         $('main').append(html);
 
     }
 
+    function render() {
+        Horns.all.forEach(obj => {
+            obj.toRender();
+        })
+    }
+
     function refreshTheSection() {
-        $('section').empty();
+        $('section').remove();
         $("section").append(
-            `
-            <template id="template" type="text/x-tmpl-mustache" class="">
-            <h2> {{title}} #{{horns}}</h2>
-            <img src="{{image_url}}" alt="" />
-            <p> {{description}} </p>
+            `<template id="template" type="text/x-tmpl-mustache">
+            <section class="{{keyword}}">
+            <h2> {{title}} #{{horns}} </h2>
+            <img src="{{image_url}}" alt=""> </img>
+            <p> {{description}} </p> 
+        </section>
         </template>`
+        )
+    }
+
+    function removeTheSelections() {
+
+        $('select').empty();
+        $('select').append(
+            `<option value = "default"> Default </option>`
         )
 
     }
 
+
     function renderAjax(num) {
+        refreshTheSection();
         arrayForKey = [];
         Horns.all = [];
-        $('option').remove();
-        refreshTheSection();
-
-
+        removeTheSelections();
 
         $.ajax(`data/page-${num}.json`, ajaxSettings).then((data) => {
             data.forEach((horn, i) => {
@@ -65,37 +78,30 @@ $('document').ready(function() {
         })
     }
 
-    function handleSort() {
-        $('input').on('change', function() {
-            let value = $(this).val();
 
-            if (value === "title") {
-                sortByName()
-            }
+
+    function grabTheValue() {
+        $('input').on('click', function() {
+            $(`input`).attr('checked', false)
+            refreshTheSection();
+
+            let value = $(this).val();
+            sort(value);
+            $(`#${value}`).attr("checked", true)
         })
-        render()
+
     }
 
-    handleSort();
-
-    function sortByName() {
-
-        Horns.all.sort((a, b) => {
-            if (a.value < b.value) {
+    function sort(value) {
+        Horns.all.sort(function(a, b) {
+            if (a[value] < b[value]) {
                 return -1;
 
-            } else if (b.value < a.value) {
+            } else if (b[value] < a[value]) {
                 return 1;
             }
-
         })
-        render(Horns.all)
-    }
-
-    function render() {
-        Horns.all.forEach(obj => {
-            obj.toRender();
-        })
+        render();
     }
 
     function clickOnPage() {
@@ -104,31 +110,38 @@ $('document').ready(function() {
             renderAjax(id);
         })
     }
+
+    function grabTheKeyWord() {
+        $('select').on("click", function() {
+            let selectedKeyword = $(this).val();
+            filterBasedOnKeyWord(selectedKeyword)
+        })
+    }
+
+
+
+    function filterBasedOnKeyWord(keyword) {
+        Horns.all.forEach(horn => {
+
+            if (keyword !== "default") {
+
+                if (keyword !== horn.keyword) {
+                    $(`.${horn.keyword}`).addClass("remove")
+                } else {
+                    $(`.${horn.keyword}`).removeClass("remove")
+                }
+            }
+
+        })
+
+
+    }
+
+
+    grabTheValue();
     clickOnPage();
     renderAjax(1);
-    // filteration(Horns.all);
-
-
-
-
-
-
-    // function filteration(arr) {
-
-    //     $('select').on("click", function() {
-    //         let selectedKeyword = $(this).val();
-
-    //         arr.forEach(obj => {
-
-    //             if (obj.keyword === selectedKeyword) {
-
-    //                 $(`.${selectedKeyword}`).attr("class", 'show');
-    //             } else {
-    //                 $(`.${selectedKeyword}`).attr('class', " ")
-    //             }
-    //         })
-    //     })
-    // }
+    grabTheKeyWord()
 
 
 
